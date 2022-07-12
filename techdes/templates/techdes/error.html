@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+</head>
+<body>
+    <a href="{% url 'techdes:index' %}">Home</a>
+    <a href="{% url 'techdes:detail' %}">Back</a><br>
+    <p><strong>{{ error_message }}</strong></p>
+</body>
+</html>

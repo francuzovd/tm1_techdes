@@ -1,0 +1,6 @@
+*.csv
+*.log
+
+/Logs/*
+/output/*
+/contents/description/*.csv

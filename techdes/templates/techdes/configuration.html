@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body class="w3-content" style="min-width:1300px">
+
+    <div class="w3-bar w3-dark-grey">
+        <div class="w3-threequarter w3-container w3-left " style="height:50px">
+            <div class="w3-padding-16">
+
+            </div>
+        </div>
+        <div class="w3-quarter w3-center " style="height:50px">
+            <div >
+                {% load static %}
+                <a href="{% url 'techdes:index' %}">
+                    <img src="{% static 'techdes/logo.png' %}" style="float:right;width:250px;height:50px;" >
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-quarter w3-left  w3-grey w3-container" style="height:700px">
+            <div class="w3-padding-24">
+                <a href="{% url 'techdes:index' %}">Home</a><br>
+                <a href="{% url 'techdes:detail' %}">Create document</a><br>
+                <a href="{% url 'techdes:configuration' %}">Configuration</a><br>
+                <a href="{% url 'techdes:application_logs' %}">Application logs</a><br>
+                <a >Contact</a><br>
+            </div>
+        </div>
+        <div class="w3-threequarter w3-left w3-blue-grey w3-container" style="height:700px">
+            <div class="w3-padding-24">
+                <form action="{% url 'techdes:save_config' %}" method="post">
+                {% csrf_token %}
+                    <fieldset>
+                        <legend><h3>Configuration</h3></legend>
+                        <p><h4>Paths</h4></p>
+                        <table class="w3-table">
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label class="w3-left" for="datafiles">Path to DataFiles folder folder:</label>
+                                </th>
+                                <th class="w3-left" >
+                                    <input class="w3-right" type="text" name="datafiles" id="datafiles" size="60" value="{{config.datafiles}}">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label class="w3-left" for="output">Path to Output folder folder: </label>
+                                </th>
+                                <th class="w3-left" >
+                                    <input class="w3-right" type="text" name="output" id="output" size="60" value="{{config.output}}"><br>
+                                </th>
+                            </tr>
+                        </table>
+
+                        <p><h4>Format</h4></p>
+                        <table class="w3-table">
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label for="dbpattern">DB pattern: </label>
+                                </th>
+                                <th class="w3-left" >
+                                    <input type="text" name="dbpattern" id="dbpattern" size="60" value="{{config.dbpattern}}"><br>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label for="date_format">DateTime format: </label>
+                                </th>
+                                <th class="w3-left" >
+                                     <input type="text" name="date_format" id="date_format" size="20" value="{{config.date_format}}"><br>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label for="output_encoding">Output encoding: </label>
+                                </th>
+                                <th class="w3-left" >
+                                    <input type="text" name="output_encoding" id="output_encoding" size="20" value="{{config.output_encoding}}"><br>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label for="input_encoding">Input encoding: </label>
+                                </th>
+                                <th class="w3-left" >
+                                    <input type="text" name="input_encoding" id="input_encoding" size="20" value="{{config.input_encoding}}"><br>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="w3-left" style="width:200px">
+                                    <label for="empty_value">Empty values: </label>
+                                </th>
+                                <th class="w3-left" >
+                                    <input type="text" name="empty_value" id="empty_value" size="20" value="{{config.empty_value}}"><br>
+                                </th>
+                            </tr>
+                        </table>
+
+                    </fieldset>
+                <input class="w3-button w3-light-blue" type="submit" value="Save" size="20">
+                </form><br>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

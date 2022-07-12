@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body class="w3-content" style="min-width:1300px">
+    <div class="w3-bar w3-dark-grey">
+        <div class="w3-threequarter w3-container w3-left " style="height:50px">
+            <div class="w3-padding-16">
+
+            </div>
+        </div>
+        <div class="w3-quarter w3-center " style="height:50px">
+            <div >
+                {% load static %}
+                <a href="{% url 'techdes:index' %}">
+                    <img src="{% static 'techdes/logo.png' %}" style="float:right;width:250px;height:50px;" >
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-quarter w3-left  w3-grey w3-container" style="height:700px">
+            <div class="w3-padding-24">
+                <a href="{% url 'techdes:index' %}">Home</a><br>
+                <a href="{% url 'techdes:detail' %}">Create document</a><br>
+                <a href="{% url 'techdes:configuration' %}">Configuration</a><br>
+                <a href="{% url 'techdes:application_logs' %}">Application logs</a><br>
+                <a >Contact</a><br>
+            </div>
+        </div>
+
+        <div class="w3-threequarter w3-center w3-blue-grey w3-container" style="height:700px">
+            <div class="w3-padding-24 ">
+                <form action="{% url 'techdes:vote' %}" method="post">
+                {% csrf_token %}
+                    <fieldset>
+                        <legend class="w3-center"><h3>Parameters</h3></legend>
+                        <table class="w3-table">
+                            <tr>
+                                <th class="w3-left" style="width:200px"><label for="dir_path" >Path to Application folder: </label></th>
+                                <th class="w3-left" ><input class="w3-sans-serif" type="text" name="dir_path" id="dir_path" size="70" value="{{ config.applications }}" ></th>
+                            </tr>
+                            <tr>
+                                <th class="w3-left" style="width:200px"><label for="doc_name" >Document name: </label></th>
+                                <th class=" w3-left"><input type="text" name="doc_name" id="doc_name" size="30" required></th>
+                            </tr>
+                        </table>
+                    </fieldset>
+                <input class="w3-button w3-light-blue w3-left" type="submit" value="Create document" size="20">
+                </form><br>
+
+            </div>
+        </div>
+   </div>
+
+</body>
+</html>

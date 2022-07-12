@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application logs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body class="w3-content" style="min-width:1300px">
+    <div class="w3-bar w3-dark-grey">
+        <div class="w3-threequarter w3-container w3-left " style="height:50px">
+            <div class="w3-padding-16">
+
+            </div>
+        </div>
+        <div class="w3-quarter w3-center " style="height:50px">
+            <div >
+                {% load static %}
+                <a href="{% url 'techdes:index' %}">
+                    <img src="{% static 'techdes/logo.png' %}" style="float:right;width:250px;height:50px;" >
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <div class="w3-quarter w3-left  w3-grey w3-container" style="height:700px">
+            <div class="w3-padding-24">
+                <a href="{% url 'techdes:index' %}">Home</a><br>
+                <a href="{% url 'techdes:detail' %}">Create document</a><br>
+                <a href="{% url 'techdes:configuration' %}">Configuration</a><br>
+                <a href="{% url 'techdes:application_logs' %}">Application logs</a><br>
+                <a >Contact</a><br>
+            </div>
+        </div>
+
+        <div class="w3-threequarter w3-left w3-blue-grey w3-container" style="height:700px">
+            <div class="w3-padding-24 ">
+                <h4>Logs table</h4>
+                <ul>
+                {% for log in logs %}
+                    <li>{{ log.date }} {{ log.type }} - {{ log.action }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+   </div>
+
+</body>
+</html>
