@@ -22,6 +22,7 @@ def logging(fn, *args, **kwargs):
             response = fn(*args)
         except:
             exc_type, exc_obj, exc_tb = sys.exc_info()
+            print(exc_type, exc_obj)
             action_ = f'{exc_type}, {exc_obj}'
             type_ = 'ERROR'
             response = error(args[0], error_message=action_)
@@ -103,11 +104,11 @@ def vote(request):
             doc_path = os.path.join(config.output, f'{doc_name}.docx')
 
             # run program
-            func_result = run_techdes([dir_path], doc_path, config=config_dict)
+            func_result, err_message = run_techdes([dir_path], doc_path, config=config_dict)
             if func_result:
                 message = f'Document created - {doc_path}'
             else:
-                message = f'Error! Check connection to Excel Server'
+                message = err_message
         else:
             message = '"Path to Application folder" contain mistakes.\nPlease check this field and write absolute path to Aplication folder.'
 

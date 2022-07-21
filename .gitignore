@@ -1,6 +1,9 @@
 *.csv
 *.log
+*.sqlite3
+*.zip
 
 /Logs/*
 /output/*
 /contents/description/*.csv
+/venv/

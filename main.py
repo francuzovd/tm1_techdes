@@ -1,3 +1,4 @@
+from email import message
 import os
 from glob_var import *
 from import_doc import create_doc
@@ -13,59 +14,63 @@ def run_techdes(app_path, doc_path, config):
 
     # TODO use only one path to create doc
 
-    # description = {
-    #     'dimension': DESC_DIM,
-    #     'cube': DESC_CUBE,
-    #     'process': DESC_PRO
-    # }
-    #
     description = {
         'dimension': config['desc_dim'],
         'cube': config['desc_cube'],
         'process': config['desc_pro'],
         'cubedim': config['dim_file']
     }
-
-    # start Excel App as server to parse Pax Forms with vba
-    # ExcelServer_log = open('./Logs/ExcelServer.log', 'wb')
-    xlx_port = 6000
-    if os.name == 'nt':
-        subprocess.Popen(
-            ['venv/bin/python3', './ExcelServer/start_server.py', str(xlx_port), './Logs/ExcelServer.log'],
-            # stdin=ExcelServer_log, stdout=ExcelServer_log, stderr=ExcelServer_log
-        )
-
-    # try:
-    #     xlx_server_ = Client(('localhost', xlx_port))
-    # except ConnectionRefusedError:
-    #     return False
-    # else:
-    #     print('Connect client to ExcelServer')
-
+    
     AppParser = TM1AppParser(
         app_dir=config['app_dir'], df_dir=config['df_dir'], db_pattern=config['db_ptrn'],
         dimensions=config['dim_file'], description=description
     )
-    AppParser.fit()
+    try:
+        AppParser.fit()
+    except Exception as e:
+        if hasattr(e, 'message'):
+            error = e.message
+        else:
+            error = e
+        err_message =  f'Parsing Apps: {error}'
+        return False, err_message
+
     app_structure = AppParser.structure
 
+    if not os.path.exists(config['df_dir']):
+        err_message = f'Path not exists: {config["df_dir"]}'
+        return False, err_message
+
     process_structure = []
-    for proces_path in pathlib.Path(DF_DIR).glob('*.pro'):
-        ProcParser = TM1ProcessParser(
-            proces_path, tech_dict=tech_dict, datasources=data_sourses,
-            functions=functions, structure=pro_dict_temp
-        )
+    try:
+        for proces_path in pathlib.Path(config['df_dir']).glob('*.pro'):
+            ProcParser = TM1ProcessParser(
+                proces_path, tech_dict=tech_dict, datasources=data_sourses,
+                functions=functions, structure=pro_dict_temp
+            )
 
-        ProcParser.parse()
-        process_structure.append(ProcParser.structure)
-    # pprint(app_structure)
+            ProcParser.parse()
+            process_structure.append(ProcParser.structure)
+    except Exception as e:
+        if hasattr(e, 'message'):
+            error = e.message
+        else:
+            error = e
+        err_message = f'Parsing process: {proces_path}, {error}'
+        return False, err_message
+
     records = (app_structure, process_structure)
-    create_doc(records, doc_path)
+    try:
+        create_doc(records, doc_path)
+    except Exception as e:
+        if hasattr(e, 'message'):
+            error = e.message
+        else:
+            error = e
+        err_message = f'Create document: {proces_path}, {error}'
+        return False, err_message
 
-    # close Excel App connection
-    # xlx_server_.send('close')
-
-    return True
+    return True, ''
 
 
 if __name__ == '__main__':
